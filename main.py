@@ -39,7 +39,7 @@ def main():
     for entry in database['results']:
         properties =  entry['properties']
         id = str(entry['id'])
-
+        completed = [x['notes'] for x in things.completed()]
         if id not in df['id'].values: # if new entry
             try:
                 date = properties['Date']['date']['start']
@@ -57,7 +57,7 @@ def main():
                 df.loc[x] = [id, name, date, tag]
                 webbrowser.open('things:///add?title='+name+'&notes='+id+'&when='+date.strftime('%Y-%m-%d')+'&list='+tag) # add to things
                 x += 1
-            elif (progress == "Completed") and not (date < today): # got marked as completed but not in things
+            elif (progress == "Completed") and not (date < today) and id not in completed: # got marked as completed but not in things
                 df.loc[x] = [id, name, date, tag]
                 notion.pages.update(id, properties={
                     'Progress': {'id': 'y%40%5DD',
