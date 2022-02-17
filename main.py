@@ -43,12 +43,13 @@ def main():
         if id not in df['id'].values: # if new entry
             try:
                 date = properties['Date']['date']['start']
+                date = date.split('T')[0]
                 date = datetime.datetime.strptime(date, '%Y-%m-%d').date()
                 progress = properties['Progress']['select']['name']
                 name = properties['Name']['title'][0]['plain_text']
                 tag = properties['Tags']['multi_select'][0]['name']
                 if tag not in projects:
-                    webbrowser.open('things:///add-project?title='+tag+'&area=Berkeley')
+                    webbrowser.open('things:///add-project?title='+tag+'&area=Work')
                     projects = [x['title'] for x in things.projects()]
             except:
                 date = None
